@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { LayoutDashboard, Users, Settings, LogOut } from "lucide-react"
 
 interface SidebarProps {
@@ -11,11 +11,18 @@ interface SidebarProps {
 
 export default function Sidebar({ open, setOpen }: SidebarProps) {
   const pathname = usePathname()
+  const router = useRouter()
 
   const isActive = (path: string) => pathname === path
 
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    localStorage.removeItem("user")
+    router.push("/") // Redirect to landing/login page
+  }
+
   const menuItems = [
-    { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
+    // { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
     { icon: Users, label: "Rooms", href: "/dashboard/rooms" },
     { icon: Settings, label: "Settings", href: "/dashboard/profile" },
   ]
@@ -27,7 +34,7 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
           open ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         }`}
       >
-        {/* Logo */}
+        {/* Logo Section */}
         <div className="p-6 border-b border-border">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg gradient-primary" />
@@ -35,7 +42,7 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
           </div>
         </div>
 
-        {/* Menu Items */}
+        {/* Menu */}
         <nav className="flex-1 p-4 space-y-1">
           {menuItems.map((item) => (
             <Link
@@ -53,16 +60,18 @@ export default function Sidebar({ open, setOpen }: SidebarProps) {
           ))}
         </nav>
 
-        {/* Logout */}
         <div className="p-4 border-t border-border">
-          <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface font-medium transition-colors">
+          <button
+            onClick={handleLogout}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface font-medium transition-colors"
+          >
             <LogOut size={20} />
             Logout
           </button>
         </div>
       </div>
 
-      {/* Mobile Overlay */}
+      {/* Overlay for mobile */}
       {open && <div className="fixed inset-0 bg-black/50 md:hidden z-20" onClick={() => setOpen(false)} />}
     </>
   )

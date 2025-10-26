@@ -8,10 +8,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 
 export default function RoomsPage() {
   const [rooms, setRooms] = useState([
-    { id: 1, name: "Engineering Sync", members: 8, duration: "45m" },
-    { id: 2, name: "Product Planning", members: 5, duration: "30m" },
-    { id: 3, name: "Design Review", members: 6, duration: "60m" },
-    { id: 4, name: "Team Standup", members: 12, duration: "15m" },
+    { id: 1, name: "Engineering Sync", duration: "45m" },
+    { id: 2, name: "Product Planning", duration: "30m" },
+    { id: 3, name: "Design Review", duration: "60m" },
+    { id: 4, name: "Team Standup",  duration: "15m" },
   ]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [newRoomName, setNewRoomName] = useState("");
@@ -24,7 +24,6 @@ export default function RoomsPage() {
         {
           id: rooms.length + 1,
           name: newRoomName,
-          members: 1,
           duration: newRoomDuration,
         },
       ]);
@@ -61,9 +60,6 @@ export default function RoomsPage() {
           >
             <h3 className="text-lg font-bold text-[#2f2a25] mb-4">{room.name}</h3>
             <div className="space-y-3 mb-6">
-              <div className="flex items-center gap-2 text-[#2f2a25]/70 text-sm">
-                <Users size={16} /> {room.members} members
-              </div>
               <div className="flex items-center gap-2 text-[#2f2a25]/70 text-sm">
                 <Clock size={16} /> {room.duration} average
               </div>
